@@ -29,7 +29,7 @@ def parser (XML_file_name, debug=False):
                 'Outras despesas':outras_despesas,
                 'Valor total':valor_total
                 }
-
+    
     if debug == True:
         print('Informações da nota: ')
         print(nota_info)
@@ -44,7 +44,7 @@ def parser (XML_file_name, debug=False):
     unitario_p = []
 
     #Pega informações dos produtos e preenche as listas
-    contador = 0
+    quantidade_de_produtos = 0
     for item in raiz[0][0]:
         if item.tag[36:40] == 'det':
             codigo_p.append(item[0][0].text)
@@ -55,11 +55,11 @@ def parser (XML_file_name, debug=False):
             ipi_p.append(item[1][2][1][3].text)
             unitario_p.append(item[0][9].text)
             
-            contador += 1
+            quantidade_de_produtos += 1
 
     #Monta uma lista de dicionarios dos produtos
     produtos = []
-    for indice in range (contador):
+    for indice in range (quantidade_de_produtos):
         produtos.append({'Código':0, 'Nome':' ', 'Quantidade':0, 'Total':0, 'ICMS ST':0, 'IPI':0, 'Valor unitário':0})
         
         produtos[indice]['Código'] = codigo_p[indice]
