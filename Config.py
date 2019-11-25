@@ -3,7 +3,7 @@
 
 from os import system
 
-def margem_lucro (on_off = "Habilitar", margem = None):     
+def margem_lucro (on_off = "Habilitar", margem = None, erro_margem = False):     
     ''' Recebe o estado atual das configurações (se atualmente está 
         habilitado ou desabilitado, e a margem atual).
         Na primeira vez ficará habilitado, e margem = None, porém, 
@@ -19,8 +19,10 @@ def margem_lucro (on_off = "Habilitar", margem = None):
     print("1 -", on_off, "margem de lucro predefinida") 
     print("2 - Definir margem de lucro")
     
-    opcao = input("Opção: ")
-    
+    if (erro_margem == False):
+        opcao = input("Opção: ")
+    else:
+        opcao = "2"
     
     if (opcao == "1"):
         if (on_off == "Habilitar"):
@@ -49,42 +51,50 @@ def margem_lucro (on_off = "Habilitar", margem = None):
             return on_off_e_margem
 
     if (opcao == "2"):
-        tem_simbolo = True
-        while (tem_simbolo == True):
-            if (margem == None):
-                print("\nMargem de Lucro atual: " + "Não foi inserida")
-            else:
-                print("\nMargem de Lucro atual:", margem*100 + "%")
-                
-            anterior = margem
-            margem = input("Margem de lucro desejada (em %): ")
+        erro_margem = True
         
-            if (margem != "v"):
-                if (margem[-1] == "%"):
-                    margem = margem[:-1]
-                tem_simbolo = False
-                pontos = 0
-                for caract in range(len(margem)):
-                    if (ord(margem[caract]) >= ord("a")):
-                        tem_simbolo = True
-                    elif (ord(margem[caract]) < ord("0") and ord(margem[caract]) != ord(".")):
-                        tem_simbolo = True
-                    if (ord(margem[caract]) == ord(".")):
-                        pontos += 1
-                    if (pontos == 2):
-                        tem_simbolo = True
+        if (margem == None):
+            print("\nMargem de Lucro atual: " + "Não foi inserida")
+        else:
+            print("\nMargem de Lucro atual:", margem*100 + "%")
+                
+        anterior = margem
+        margem = input("Margem de lucro desejada (em %): ")
+        
+        if (margem != "v"):
+            if (margem[-1] == "%"):
+                margem = margem[:-1]
+            erro_margem = False
+            pontos = 0
+            for caract in range(len(margem)):
+                if (ord(margem[caract]) >= ord("a")):
+                    erro_margem = True
+                elif (ord(margem[caract]) < ord("0") and ord(margem[caract]) != ord(".")):
+                    erro_margem = True
+                
+                if (ord(margem[caract]) == ord(".")):
+                    pontos += 1
+                    if (pontos == len(margem)):  #Se a pessoa digitar apenas um ponto
+                        erro_margem = True
+                if (pontos == 2):
+                    erro_margem = True
+
                         
 
-                if (tem_simbolo == False):
-                    margem = float(margem)/100   ## Margem de lucro na forma de decimal pronto para ser usado
-                    print("\n*Alterações aplicadas*")
-                else:
-                    print("\nInválido. Insira somente números e '.' para decimal")
-                    margem = anterior
+            if (erro_margem == False):
+                margem = float(margem)/100   ## Margem de lucro na forma de decimal pronto para ser usado
+                print("\n*Alterações aplicadas*")
+                on_off_e_margem = (on_off, margem, erro_margem)
             else:
-                return (on_off,anterior)
+                print("\nInválido. Insira somente números e '.' para decimal")
+                input()
+                margem = anterior
+                on_off_e_margem = margem_lucro(on_off,margem,erro_margem)
+
+        else:
+            return (on_off,anterior)
                 
-        return (on_off,margem)  #Retorna uma tupla 
+        return on_off_e_margem  #Retorna uma tupla 
 
 
     return (on_off_e_margem) #retorna a tupla do if opcao == 1
