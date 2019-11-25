@@ -45,13 +45,28 @@ def parser (XML_file_name, debug=False):
 
     #Pega informações dos produtos e preenche as listas
     quantidade_de_produtos = 0
+    tem_icmsst = False
     for item in raiz[0][0]:
         if item.tag[36:40] == 'det':
             codigo_p.append(item[0][0].text)
-            nome_p.append(item[0][2].text + ' ' + item[2].text)
+
+            #O nome pode estar dividido em duas partes ou não
+            if len(item) >= 3:
+                nome_p.append(item[0][2].text + ' ' + item[2].text)
+            else:
+                nome_p.append(item[0][2].text)
+
             quantidade_p.append(item[0][13].text)
             valor_total_p.append(item[0][10].text)
-            icms_st_p.append(item[1][1][0][15].text)
+
+            #Alguns produtos tem ICMS ST outros não
+            for tipo_de_icms in item[1][1][0]:
+                if tipo_de_icms.tag[36:42] == 'vICMSST':
+                    icms_st_p.append(tipo_de_icms.text)
+                    tem_icmsst = True
+            if tem_icmsst == False:
+                icms_st_p.append(0)
+
             ipi_p.append(item[1][2][1][3].text)
             unitario_p.append(item[0][9].text)
             
@@ -81,4 +96,7 @@ def parser (XML_file_name, debug=False):
 
     return info_XML
 
-parser('teste.xml', True)
+#Interface para desenvolvedores (os + pikas)
+nome = input('Digite o nome do arquivo XML (sem a extensão .xml no final): ')
+nome = nome + '.xml'
+parser(nome, True)
