@@ -189,23 +189,23 @@ def diretorio (on_off = "Habilitar", endereco = None, erro_dir = False ):
 
 def ler_arq (arq):
     lista = arq.readlines()
-    
+    input(lista)
     lista[0] = lista[0][:-1]
+    
+    
     return lista
 
 
 
 def escrever_arq (arq, tupla):
-    arq.seek(0)
-    arq.write(tupla[0] + "\n")
-    arq.write(str(tupla[1]))
+    lista = list(tupla)
+    input(lista)
+    arq.write(lista[0] + "\n")
+    arq.write(str(lista[1]))
 
 
     
     
-
-
-
 def config ():
     os.system("clear" or "cls")
     print("******************* CONFIGURAÇÕES *********************")                           
@@ -224,14 +224,19 @@ def config ():
         margem_txt.close()
         margem_txt = open("Margem.txt","w")
         escrever_arq(margem_txt, config_margem)
+        margem_txt.close()
         config()
     
     elif (opcao == "2"):
-        endereco = diretorio()
-        #arquivo
-        print(diretorio)
-        input()   #Tirar depois
+        diretorio_txt = open ("Diretorio.txt", "r")
+        config_diretorio = ler_arq(diretorio_txt)
+        config_diretorio = diretorio(config_diretorio[0], config_diretorio[1])
+        diretorio_txt.close()
+        diretorio_txt = open("Diretorio.txt", "w")
+        escrever_arq(diretorio_txt, config_diretorio)
+        diretorio_txt.close()
         config()
+    
     elif (opcao == "v"):
         return
     else: 

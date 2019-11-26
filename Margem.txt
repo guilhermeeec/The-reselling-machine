@@ -1,2 +1,2 @@
-Habilitar
-0.47
+Desabilitar
+0.11
