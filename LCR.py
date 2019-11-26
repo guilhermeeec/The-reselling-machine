@@ -124,7 +124,7 @@ def revenda():
 
     end_dir_predef = '/home/guiat/comp1/The-reselling-machine/'
     config_dir_predef = 'Desabilitar'
-    
+
     #Verificar se o diretório predefinido está desabilitado
     if config_dir_predef == 'Habilitar':
         endereco = escolher_xml_endereco()
@@ -132,5 +132,4 @@ def revenda():
         endereco = escolher_xml_diretorio(end_dir_predef)
     print(endereco)
 
-revenda()
 
