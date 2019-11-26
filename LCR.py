@@ -4,10 +4,24 @@ import os
 from Parser import parser 
 from pathlib import Path
 
-def escolher_xml (config_dir_predef=False, end_dir_predef=None):
+def varre_xml (end_dir_predef):
+ 
+        #Cria uma lista vazia com os arquivos xml do diretório pré-definido
+        lista_xml = []
+
+        #Varre uma lista com os arquivos do diretório pré-definido 
+        for arquivo in os.listdir (end_dir_predef):
+
+            #Verifica quais arquivos são xml para listá-los
+            if Path(arquivo).suffix == '.xml':
+                lista_xml.append(arquivo)
+
+        return lista_xml
+
+def escolher_xml (config_dir_predef=False, lista_xml=[], quant_xml_exibidos=10):
     os.system('clear')
 
-    #Caso não tenha diretório pré-definido
+    #Caso não tenha diretório pré-definido (Tela 1.1B)
     if config_dir_predef == False:
         print('(digite \'v\' para voltar)\n')
         print('Digite o endereço do arquivo XML: ')
@@ -41,46 +55,54 @@ def escolher_xml (config_dir_predef=False, end_dir_predef=None):
 
         return retorno
     
-    #Caso tenha diretório pré-definido
+    #Caso tenha diretório pré-definido (Tela 1.1A)
     else:
-        
-        #Cria uma lista vazia com os arquivos xml do diretório pré-definido
-        lista_xml = []
-
-        #Lista os arquivos do diretório pré-definido e os varre
-        quant_de_xml = 0
-        for arquivo in os.listdir (end_dir_predef):
-
-            #Verifica quais arquivos são xml para listá-los
-            if Path(arquivo).suffix == '.xml':
-                lista_xml.append(arquivo)
-                quant_de_xml += 1
-
-        #Só libera a próxima tela se não houver nenhum erro
-        erro = False
-        limite = 20
 
         #Listagem de xml para o usuário
-        print('Lista de XML no diretório predefinido\n')
+        print('Lista de XML no diretório predefinido')
 
-        #10 arquivos ou menos
-        numero = 0
-        if quant_de_xml <= 10:
-            for item in lista_xml:
-                numero += 1
-                print(numero, end=' - ')
-                print(item)
+        #Calcula a quantidade de arquivos xml a ser exibidos (n)
+        n = min(len(lista_xml),quant_xml_exibidos)
         
-        #Mais de 10 arquivos
-        else:
-            for indice in range(10):
-                numero += 1
-                print(numero, end=' - ')
-                print(lista_xml[indice])
-            print('\nPressione \'m\' para exibir mais')
+        #Lista de números
+        numeros = []
+
+        #Lista n arquivos xml
+        numero = 0
+        for item in range(n):
+            numero += 1
+            numeros.append(numero)
+            print('\t')
+            print(numero, end=' - ')
+            print(lista_xml[item])
+        
+        #Pede pro usuário apertar seta pra baixo ou m patra exibir mais xml caso existam
+        if n < len(lista_xml):
+            print('\nPressione seta para baixo (ou \'m\') para exibir mais')
             
         print('\n(digite \'v\' para voltar)\n')
         print('Selecione o XML (ou digite \'T\' para todos: ')
-        opcao = input()
+        
+        entrada = input()
 
+        if entrada == 'v' or entrada == 'V':
+
+            #Código de voltar
+            return -1
+
+        #'^[[B' = seta para baixo
+        elif entrada == 'm' or entrada == 'M' or entrada == '^[[B':
+            
+            #Chama a função recursivamente pedindo pra exibir mais 10 xml
+            quant_xml_exibidos += 10
+            retorno = escolher_xml(True, lista_xml, quant_xml_exibidos)
+
+        elif entrada == 't' or entrada == 'T':
+
+            #Código para todos
+            return 't'
+
+        return retorno
+
+  
 print(escolher_xml())
