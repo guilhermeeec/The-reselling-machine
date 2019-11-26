@@ -1,7 +1,10 @@
 
 ####### CONFIGURAÇÕES ########
 
-from os import system
+import os
+
+#   1 - Margem de lucro
+
 
 def margem_lucro (on_off = "Habilitar", margem = None, erro_margem = False):     
     ''' Recebe o estado atual das configurações (se atualmente está 
@@ -11,11 +14,11 @@ def margem_lucro (on_off = "Habilitar", margem = None, erro_margem = False):
         como salvar em disco 
     '''
     
-    system("clear")                                                    
+    os.system("clear" or "cls")                                                    
     print("******************* CONFIGURAÇÕES ********************")     
     print("                   MARGEM DE LUCRO\n")                      
     print("*aperte 'v' para voltar*")                                  
-    print("")
+    print("\n"*2)
     print("1 -", on_off, "margem de lucro predefinida") 
     print("2 - Definir margem de lucro")
     
@@ -38,19 +41,14 @@ def margem_lucro (on_off = "Habilitar", margem = None, erro_margem = False):
     
     elif (opcao == "v"):
         if (margem == None and on_off == "Desabilitar"):     #Na primeira vez, habilitou e apertou 'v', sem definir uma margem
-            print("Você tem que inserir uma margem de lucro primeiro")
+            print("Você tem que inserir uma margem de lucro primeiro ou desabilitar a opção")
             input()
-            opcao = "2"              
+            on_off_e_margem = margem_lucro(on_off, margem)              
+
         else:
             return (on_off, margem)
-    else:
-        if(opcao != "2"):                   
-            print("Opção inválida")
-            input()
-            on_off_e_margem = margem_lucro(on_off,margem)
-            return on_off_e_margem
 
-    if (opcao == "2"):
+    elif (opcao == "2"):
         erro_margem = True
         
         if (margem == None):
@@ -64,6 +62,8 @@ def margem_lucro (on_off = "Habilitar", margem = None, erro_margem = False):
         if (margem != "v"):
             if (margem[-1] == "%"):
                 margem = margem[:-1]
+            
+            #----Tratamento de erro para o que for digitado: 
             erro_margem = False
             pontos = 0
             for caract in range(len(margem)):
@@ -78,9 +78,8 @@ def margem_lucro (on_off = "Habilitar", margem = None, erro_margem = False):
                         erro_margem = True
                 if (pontos == 2):
                     erro_margem = True
-
-                        
-
+            #----
+            
             if (erro_margem == False):
                 margem = float(margem)/100   ## Margem de lucro na forma de decimal pronto para ser usado
                 print("\n*Alterações aplicadas*")
@@ -90,20 +89,135 @@ def margem_lucro (on_off = "Habilitar", margem = None, erro_margem = False):
                 input()
                 margem = anterior
                 on_off_e_margem = margem_lucro(on_off,margem,erro_margem)
+        else:
+            if (anterior == None and on_off == "Desabilitar"):
+                print("Você tem que inserir uma margem de lucro primeiro ou desabilitar a opção")
+                input()
+                on_off_e_margem = margem_lucro(on_off, anterior)                      
+            return (on_off,anterior) 
+
+    else:            
+        print("Opção inválida")
+        input()
+        on_off_e_margem = margem_lucro(on_off,margem)
+
+
+    return on_off_e_margem 
+
+
+
+
+
+#   2 - Diretório 
+
+
+
+
+def diretorio (on_off = "Habilitar", endereco = None, erro_dir = False ):
+    
+    os.system("clear" or "cls")                                                    
+    print("******************* CONFIGURAÇÕES **********************")     
+    print("                      DIRETÓRIO\n")                      
+    print("*aperte 'v' para voltar*")                                  
+    print("\n"*2)
+    print("1 -", on_off, "diretório predefinido") 
+    print("2 - Definir diretório")
+    print("\n"*2)
+    
+    if (erro_dir == False):
+        opcao = input("Opção: ")
+    
+    else:
+        opcao = "2"
+    
+    if (opcao == "1"):
+        if (on_off == "Habilitar"):
+            on_off = "Desabilitar"
+        else:
+            on_off = "Habilitar" 
+        
+        on_off_e_endereco = diretorio(on_off, endereco)   
+    
+    elif (opcao == "v"):
+        if (endereco == None and on_off == "Desabilitar"):     
+            print("Você tem que inserir o endereço do diretório primeiro ou desabilitar a opção")
+            input()
+            on_off_e_endereco = diretorio(on_off, endereco)
+        else:
+            return (on_off, endereco)
+
+    elif (opcao == "2"):
+        
+        if (endereco == None):
+            print("\nDiretório atual: " + "Não foi inserido")
+        else:
+            print("\nDiretório atual:", endereco)
+                
+        anterior = endereco
+        print("Digite o endereço do diretório desejado. " + "Ex: C:\Apps\SupportAssist ou /home/joaquim\n") #Windows ou Linux
+        endereco = input("Diretório: ")
+        
+        if (endereco != "v"):
+            erro_dir = not(os.path.isdir(endereco))     #Verifica se a pasta existe
+            
+            if (erro_dir == False):
+                print("\n*Alterações aplicadas*")
+                input()
+                return (on_off, endereco)
+            
+            else:
+                print("\nDiretório inválido. Digite novamente")
+                input()
+                endereco = anterior
+                on_off_e_endereco = diretorio(on_off,endereco,erro_dir)
 
         else:
-            return (on_off,anterior)
+            if (anterior == None and on_off == "Desabilitar"):     
+                print("Você tem que inserir o endereço do diretório primeiro ou desabilitar a opcao")
+                input()
+                on_off_e_endereco = diretorio(on_off, anterior)
+            else:
+                return (on_off,anterior)
                 
-        return on_off_e_margem  #Retorna uma tupla 
+    else:                   
+        print("Opção inválida")
+        input()
+        on_off_e_endereco = diretorio(on_off, endereco)
+         
+    return on_off_e_endereco     
+
+def config ():
+    os.system("clear" or "cls")
+    print("******************* CONFIGURAÇÕES *********************")                           
+    print("")
+    print("*aperte 'v' para voltar*")                                  
+    print("\n"*2)
+    print("1 - Margem de Lucro") 
+    print("2 - Diretório")
+    print("\n"*2)
+    
+    opcao = input("Opção: ")
+    if (opcao == "1"):
+        lucro = margem_lucro()
+        #arquivo
+        print(lucro)
+        input()   #Tirar depois
+        config()
+    elif (opcao == "2"):
+        endereco = diretorio()
+        #arquivo
+        print(diretorio)
+        input()   #Tirar depois
+        config()
+    elif (opcao == "v"):
+        return
+    else: 
+        print("Opção inválida")
+        input()
+        config()
 
 
-    return (on_off_e_margem) #retorna a tupla do if opcao == 1
-
-
-            
-tupla = margem_lucro()
-print("Tupla:", tupla)
-
+config()
 
 
 
