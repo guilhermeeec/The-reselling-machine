@@ -54,7 +54,7 @@ def margem_lucro (on_off = "Habilitar", margem = None, erro_margem = False):
         if (margem == None):
             print("\nMargem de Lucro atual: " + "Não foi inserida")
         else:
-            print("\nMargem de Lucro atual:", margem*100 + "%")
+            print("\nMargem de Lucro atual: ", margem*100 , "%" ,sep = "")
                 
         anterior = margem
         margem = input("Margem de lucro desejada (em %): ")
@@ -186,6 +186,26 @@ def diretorio (on_off = "Habilitar", endereco = None, erro_dir = False ):
          
     return on_off_e_endereco     
 
+
+def ler_arq (arq):
+    lista = arq.readlines()
+    
+    lista[0] = lista[0][:-1]
+    return lista
+
+
+
+def escrever_arq (arq, tupla):
+    arq.seek(0)
+    arq.write(tupla[0] + "\n")
+    arq.write(str(tupla[1]))
+
+
+    
+    
+
+
+
 def config ():
     os.system("clear" or "cls")
     print("******************* CONFIGURAÇÕES *********************")                           
@@ -198,11 +218,14 @@ def config ():
     
     opcao = input("Opção: ")
     if (opcao == "1"):
-        lucro = margem_lucro()
-        #arquivo
-        print(lucro)
-        input()   #Tirar depois
+        margem_txt = open("Margem.txt", "r")
+        config_margem = ler_arq(margem_txt)
+        config_margem = margem_lucro(config_margem[0], float(config_margem[1]))
+        margem_txt.close()
+        margem_txt = open("Margem.txt","w")
+        escrever_arq(margem_txt, config_margem)
         config()
+    
     elif (opcao == "2"):
         endereco = diretorio()
         #arquivo
