@@ -95,8 +95,3 @@ def parser (XML_file_name, debug=False):
     info_XML = produtos.append(nota_info)
 
     return info_XML
-
-#Interface para desenvolvedores (os + pikas)
-nome = input('Digite o nome do arquivo XML (sem a extensão .xml no final): ')
-nome = nome + '.xml'
-parser(nome, True)
