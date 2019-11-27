@@ -89,9 +89,8 @@ def parser (XML_file_name, debug=False):
         print('Dicionários dos produtos')
         for dicionario in produtos:
             print(dicionario, '\n')
-
     
     #Monta uma lista com todas as informações. O último elemento da lista é o dicionário com as informações da nota
-    info_XML = produtos.append(nota_info)
+    produtos.append(nota_info)
 
-    return info_XML
+    return produtos

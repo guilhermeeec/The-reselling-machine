@@ -6,17 +6,17 @@ from pathlib import Path
 
 def varre_xml (end_dir_predef):
  
-        #Cria uma lista vazia com os arquivos xml do diretório pré-definido
-        lista_xml = []
+    #Cria uma lista vazia com os arquivos xml do diretório pré-definido
+    lista_xml = []
 
-        #Varre uma lista com os arquivos do diretório pré-definido 
-        for arquivo in os.listdir (end_dir_predef):
+    #Varre uma lista com os arquivos do diretório pré-definido 
+    for arquivo in os.listdir (end_dir_predef):
 
-            #Verifica quais arquivos são xml para listá-los
-            if Path(arquivo).suffix == '.xml':
-                lista_xml.append(arquivo)
-
-        return lista_xml
+        #Verifica quais arquivos são xml para listá-los
+        if Path(arquivo).suffix == '.xml':
+            lista_xml.append(arquivo)
+        
+    return lista_xml
 
 #Tela 1.1B
 def escolher_xml_endereco ():
@@ -122,7 +122,7 @@ def escolher_xml_diretorio (end_dir_predef, quant_xml_exibidos=10):
         else:
             input('\nNão há um XML na lista com esse número')
             retorno = escolher_xml_diretorio(end_dir_predef)
-
+    
     return retorno
 
 
@@ -140,22 +140,19 @@ def exibir_produtos_BACKUP(info_xml, margem):
         print('\tPreço de revenda: ', (margem + 1) * produto['Valor unitário'])
         print()
 
-def exibir_produtos(info_xml, margem, maximo=6):
-    
-    #Tira o dicionário da nota
-    info_xml = info_xml[:-1]
+def exibir_produtos(info_xml, margem, endereco, maximo=4):
     
     n = min(len(info_xml),maximo)
 
     #Mostra os produtos na tela
-    for produto in range(maximo-6, n):
+    for produto in range(maximo-4, n):
 
         #Falta formatação
 
-        print(produto['Nome'])
-        print('\tQuantidade: ', produto['Quantidade'])
-        print('\tPreço unitário: ', produto['Valor unitário'])
-        print('\tPreço de revenda: ', (margem + 1) * produto['Valor unitário'])
+        print(info_xml[produto]['Nome'])
+        print('\tQuantidade: ', info_xml[produto]['Quantidade'])
+        print('\tPreço unitário: ', info_xml[produto]['Valor unitário'])
+        print('\tPreço de revenda: ', (int(margem) + 1) * int(info_xml[produto]['Valor unitário']))
         print()
     
     #Verifica se ja exibiu todos os produtos
@@ -169,13 +166,14 @@ def exibir_produtos(info_xml, margem, maximo=6):
 
     #Tratamento de erro
     if entrada == 'm' or entrada == 'M' or entrada == '^[[B':
-        maximo += 6
+        maximo += 4
         exibir_info(endereco, maximo, margem)
 
     elif entrada == 'y' or entrada == 'Y':
         
+        pass
         #FALTANDO
-
+    
     elif entrada == 'n' or entrada == 'N':
         return
 
@@ -191,6 +189,7 @@ def exibir_info (endereco, maximo=6, margem=0):
     
     #Lê as configurações da margem de lucro armazenadas em disco
     arq_margem = open('Margem.txt', 'r')
+    arq_margem.seek(0)
     margem_on_off = arq_margem.readlines()[0]
     
     #Cabeçalho
@@ -212,7 +211,9 @@ def exibir_info (endereco, maximo=6, margem=0):
         #Verifica se a margem de lucro padrão está habilitada
         if margem_on_off == 'Desabilitar\n':
             print('\n*Configurações padrões aplicadas*\n')
+            arq_margem.seek(0)
             margem = arq_margem.readlines()[1]
+            arq_margem.close()
         
         #Se estiver habilitada e for a primeira vez rodando o programa
         elif margem_on_off == 'Habilitar\n' and maximo == 6:
@@ -223,51 +224,61 @@ def exibir_info (endereco, maximo=6, margem=0):
         #Vai exibir a margem de lucro que o usuário digitou anteriormente
         else:
             print('Digite a margem de lucro desejada:', margem)
-
-        exibir_produtos(info_xml, margem, maximo)
+        
+        info_xml = info_xml[:-1]
+        exibir_produtos(info_xml, margem, endereco, maximo)
 
     else:
         if margem_on_off == 'Desabilitar\n':
             print('*Configurações padrões aplicadas*')
+            arq_margem.seek(0)
             margem = arq_margem.readlines()[1]
+            arq_margem.close()
         elif margem_on_off == 'Habilitar\n' and maximo == 6:
             print('Digite a margem de lucro desejada: ')
             #FALTANDO
         else:
             print('Digite a margem de lucro desejada:', margem)
         
-        arq_dir_predef = open('Diretório.txt', 'r')
+        arq_dir_predef = open('Diretorio.txt', 'r')
         end_dir_predef = arq_dir_predef.readlines()[1]
         
+        if end_dir_predef[-1] == '\n':
+            end_dir_predef = end_dir_predef[:-1]
         lista_xml = varre_xml(end_dir_predef)
         
         #Cada linha dessa matriz é um XML (todos os produtos de um xml)
         #Cada coluna são os produtos (dicionários) que estão no xml
         matriz_xml = []
     
-        for arquivo in lista_xml:
-            matriz_xml.append(parser(end_dir_predef + arquivo))
-        
         listona = []
-
-        for xml in matriz_xml:
-            exibir_produtos(xml, margem, maximo)
+        
+        for arquivo in lista_xml:
+            for produtos in parser(end_dir_predef + arquivo)[:-1]:
+                listona.append(produtos)
+        
+        exibir_produtos(listona, margem, endereco, maximo)
 
 #Função principal (chamada feita pela main)
 def revenda():
 
     #Verifica as configurações de diretório predefinido armazenadas em disco
-    arq_dir_predef = open('Diretório.txt', 'r')
+    arq_dir_predef = open('Diretorio.txt', 'r')
+    arq_dir_predef.seek(0)
     config_dir_predef = arq_dir_predef.readlines()[0]
 
     #Verificar se o diretório predefinido está desabilitado
-    if config_dir_predef == 'Habilitar':
-        end_dir_predef = arq_dir_predef.readlines()[1]
-        arq_dir_predef.close()
+    if config_dir_predef == 'Habilitar\n':
         endereco = escolher_xml_endereco()
     else:
+        arq_dir_predef.seek(0)
+        end_dir_predef = arq_dir_predef.readlines()[1]
+        if end_dir_predef[-1] == '\n':
+            end_dir_predef = end_dir_predef[:-1]
+        arq_dir_predef.close()
         endereco = escolher_xml_diretorio(end_dir_predef)
-
-    exibir_info(endereco)
+    
+    if endereco is not None:
+        exibir_info(endereco)
 
 revenda()
