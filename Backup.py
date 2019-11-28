@@ -53,8 +53,35 @@ def backup(quant_prod_exibidos=3):
         return
 
     elif entrada == 'd' or entrada == 'D':
-        produto = input('Digite o número do produto a ser deletado: ')
-        #FALTANDO
+        linha = input('Digite o número do produto a ser deletado: ')
+        
+        erro_caracter = False
+        for caracter in linha:
+            if ord(caracter)<ord('0') or ord(caracter)>ord('9'):
+                erro_caracter = True
+        
+        if erro_caracter == True:
+            input('Comando inválido')
+            backup(quant_prod_exibidos)
+            return
+        else:
+            linha = int(linha)
+            if linha >= len(matriz):
+                input('Esse número não corresponde a nenhum produto')
+                backup(quant_prod_exibidos)
+                return
+            else:
+                backups = open('Backup.txt', 'r')
+                backups.seek(0)
+                produtos = backups.readlines()
+                produtos.pop(linha-1)
+                backups.close()
+                backups = open('Backup.txt', 'w')
+                backups.seek(0)
+                backups.writelines(produtos)
+                backups.close()
+                backup(quant_prod_exibidos)
+                return
 
     else:
         input('Opção inválida')
