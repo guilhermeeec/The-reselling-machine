@@ -3,6 +3,7 @@
 import os
 from Parser import parser 
 from pathlib import Path
+from datetime import date
 
 def varre_xml (end_dir_predef):
  
@@ -125,18 +126,23 @@ def escolher_xml_diretorio (end_dir_predef, quant_xml_exibidos=10):
 
 
 def salvamento_disco(info_xml, margem):
-    
+
     backup = open('Backup.txt', 'a')
+    
+    data = date.today()
+    data_texto = '{}/{}/{}'.format(data.day, data.month, data.year)
 
     for produto in info_xml:
         backup.write(produto['Nome']+'~')
         backup.write(produto['Código']+'~')
         backup.write(produto['Quantidade']+'~')
-        backup.write(produto['Total']+'::')
+        backup.write(produto['Total']+'~')
         backup.write(str(produto['ICMS ST'])+'~')
-        backup.write(produto['IPI']+'::')
+        backup.write(produto['IPI']+'~')
         backup.write(produto['Valor unitário']+'~')
         backup.write(str(((float(margem))/100 + 1) * float(produto['Valor unitário']))+'~')
+        backup.write(data_texto+'~')
+        backup.write('\n')
 
     backup.close()
 
