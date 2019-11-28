@@ -1,10 +1,14 @@
 ########## LEITURA DO XML E CÁLCULO DE REVENDA ##########
 
+#Bibliotecas
 import os
-from Parser import parser 
 from pathlib import Path
 from datetime import date
 
+#Arquivo do programa
+from Parser import parser 
+
+#Pega todos os xml do diretório predefinido
 def varre_xml (end_dir_predef):
  
     #Cria uma lista vazia com os arquivos xml do diretório pré-definido
@@ -26,11 +30,12 @@ def escolher_xml_endereco ():
     os.system('clear' or 'cls')
 
     #Cabeçalho
-    print('************************** LEITURA DO XML E CÁLCULO DE REVENDA *************************')
+    print('************************** LEITURA DO XML E CÁLCULO DE REVENDA *************************\n')
 
     print('(digite \'v\' para voltar)\n')
     entrada = input('Digite o endereço do arquivo XML: ')
 
+    #Voltar
     if entrada == 'v' or entrada == 'V':
         return
 
@@ -41,21 +46,21 @@ def escolher_xml_endereco ():
     if os.path.exists (endereco) == False:
         input('\nEndereço não encontrado')
         retorno = escolher_xml_endereco()
+        return retorno
         
     #Verifica se o arquivo tem extensão .xml
     elif Path(endereco).suffix != '.xml':
         input('\nArquivo não possui extensão .xml')
         retorno = escolher_xml_endereco()
+        return retorno
         
     #Endereço existe e tem extensão .xml
     else:
         input('\nEndereço encontrado')
         return endereco
-
-    return retorno
     
 #Tela 1.1A
-def escolher_xml_diretorio (end_dir_predef, quant_xml_exibidos=10):
+def escolher_xml_diretorio (end_dir_predef, quant_xml_exibidos=25):
     
     #Limpa a tela
     os.system('clear' or 'cls')
@@ -73,39 +78,37 @@ def escolher_xml_diretorio (end_dir_predef, quant_xml_exibidos=10):
     n = min(len(lista_xml),quant_xml_exibidos)
 
     #Lista n arquivos xml
-    for item in range(quant_xml_exibidos-10, n):
+    for item in range(quant_xml_exibidos-25, n):
         print(item+1, end=' - ')
         print(lista_xml[item])
         
-    #Pede pro usuário apertar seta pra baixo ou m para exibir mais xml caso existam
+    #Pede pro usuário apertar m para exibir mais xml caso existam
     if n < len(lista_xml):
-        print('\nPressione \'m\' para exibir mais')
+        print('\nPressione "m" para exibir mais')
             
-    print('\n(digite \'v\' para voltar)\n')
-    entrada = input('Selecione o XML (ou digite \'T\' para todos): ')
+    print('\n(digite "v" para voltar)\n')
+    entrada = input('Selecione o XML (ou digite "T" para todos): ')
 
-    #Tratamento de erro
+    #Voltar
     if entrada == 'v' or entrada == 'V':
-
-        #Código de voltar
         return 
 
-    #'^[[B' = seta para baixo
+    #Exibir mais 25 xml
     elif (entrada == 'm' or entrada == 'M') and n < len(lista_xml):
             
         #Chama a função recursivamente pedindo pra exibir mais 10 xml
-        quant_xml_exibidos += 10
+        quant_xml_exibidos += 25
         retorno = escolher_xml_diretorio(end_dir_predef, quant_xml_exibidos)
-
+    
+    #Processa todos os xml
     elif entrada == 't' or entrada == 'T':
-
-        #Código para todos
         return 't'
-
+    
+    #Digitou algo inválido
     else:
         erro = False
 
-        #Verificar se não digitar um número
+        #Verificar se não digitou um número
         for letra in entrada:
             if ord(letra) < ord('0') or ord(letra) > ord('9'):
                 erro = True
@@ -117,13 +120,12 @@ def escolher_xml_diretorio (end_dir_predef, quant_xml_exibidos=10):
         #Verificar se o número corresponde a um xml
         elif int(entrada) <= len(lista_xml):
             retorno = end_dir_predef + lista_xml[int(entrada)-1]
+            return retorno
     
         else:
             input('\nNão há um XML na lista com esse número')
             retorno = escolher_xml_diretorio(end_dir_predef)
-    
-    return retorno
-
+            return retorno
 
 def salvamento_disco(info_xml, margem):
 
@@ -156,6 +158,7 @@ def salvamento_disco(info_xml, margem):
 #Tela 1.2A e 1.2B
 def exibir_produtos(info_xml, margem, endereco, maximo=4):
     
+    #Verifica quantos xml precisam ser exibidos
     n = min(len(info_xml),maximo)
 
     #Mostra os produtos na tela
@@ -199,7 +202,7 @@ def exibir_produtos(info_xml, margem, endereco, maximo=4):
         exibir_info(endereco, maximo, margem)
 
 #Tela 1.2A e 1.2B
-def exibir_info (endereco, maximo=6, margem=0):
+def exibir_info (endereco, maximo=4, margem=0):
     
     #Limpa a tela
     os.system('clear' or 'cls')
@@ -210,12 +213,18 @@ def exibir_info (endereco, maximo=6, margem=0):
     margem_on_off = arq_margem.readlines()[0]
     
     #Cabeçalho
-    print('************************** LEITURA DO XML E CÁLCULO DE REVENDA *************************')
+    print('************************** LEITURA DO XML E CÁLCULO DE REVENDA *************************\n')
     
-    #Verifica se o usuário decidiu processar um xml
+    #Verifica se o usuário decidiu processar 1 xml
     if endereco != 't':
+
+        #Lista com os dicionários dos produtos e com o dicionário da nota
         info_xml = parser(endereco)
+
+        #Tira o dicionário da nota
         info_nota = info_xml[-1]
+
+        #Exibe as informações da nota
         print('\nInformações do XML')
         print('\t1 - Fornecedor:', info_nota['Fornecedor'])
         print('\t2 - Data de emissão da nota:', info_nota['Data de emissão'])
@@ -233,75 +242,83 @@ def exibir_info (endereco, maximo=6, margem=0):
             arq_margem.close()
         
         #Se estiver habilitada e for a primeira vez rodando o programa
-        elif margem_on_off == 'Habilitar\n' and maximo == 6:
+        elif margem_on_off == 'Habilitar\n' and maximo == 4:
             margem = input('\nDigite a margem de lucro desejada: ')
             erro = False
             contador_pontos=0
 
+            #Verifica se o usuário digitou algo que não é um número
             for caracter in margem:
                 if (ord(caracter)<ord('0') or ord(caracter)>ord('9')) and caracter != '.':
                     erro = True
                 if caracter == '.':
                     contador_pontos += 1
-
             if erro == True or contador_pontos >= 2:
                 input('Margem de lucro inválida. Digite um número em porcentagem usando o "." para decimal caso necessário')
                 exibir_info(endereco, maximo)
                 return
         
-        #Vai exibir a margem de lucro que o usuário digitou anteriormente
+        #Vai exibir a margem de lucro que o usuário digitou anteriormente se não for a primeira vez aberto
         else:
             print('Digite a margem de lucro desejada:', margem)
+            print()
         
+        #Tira o dicionário da nota sobrando apenas os dicionários dos produtos
         info_xml = info_xml[:-1]
+
+        #Processa os xml dos produtos para listá-los na tela
         exibir_produtos(info_xml, margem, endereco, maximo)
 
     #Todos os xml
     else:
+
+        #Verifica se a margem de lucro padrão está habilitada
         if margem_on_off == 'Desabilitar\n':
             print('*Configurações padrões aplicadas*')
             arq_margem.seek(0)
             margem = arq_margem.readlines()[1]
             arq_margem.close()
-
+        
+        #Se estiver habilitada e for a primeira vez rodando o programa
         elif margem_on_off == 'Habilitar\n' and maximo == 6:
             margem = input('\nDigite a margem de lucro desejada: ')
+            
+            #Verifica se não foi digitado um número 
             erro = False
             contador_pontos=0
-
             for caracter in margem:
                 if (ord(caracter)<ord('0') or ord(caracter)>ord('9')) and caracter != '.':
                     erro = True
                 if caracter == '.':
                     contador_pontos += 1
-
             if erro == True or contador_pontos == len(margem):
                 input('Margem de lucro inválida. Digite um número em porcentagem usando o "." para decimal caso necessário')
                 exibir_info(endereco, maximo)
                 return
+
+        #Vai exibir a margem de lucro que o usuário digitou anteriormente se não for a primeira vez aberto
         else:
             print('Digite a margem de lucro desejada:', margem)
         
+        #Verifica o diretório predefinido
         arq_dir_predef = open('Diretorio.txt', 'r')
         end_dir_predef = arq_dir_predef.readlines()[1]
-        
         if end_dir_predef[-1] == '\n':
             end_dir_predef = end_dir_predef[:-1]
+        
+        #Pega uma lista de arquivos xml
         lista_xml = varre_xml(end_dir_predef)
         
-        #Cada linha dessa matriz é um XML (todos os produtos de um xml)
-        #Cada coluna são os produtos (dicionários) que estão no xml
-        matriz_xml = []
-    
+        #Cria uma lista juntando todos os produtos de todos os xml
         listona = []
-        
         for arquivo in lista_xml:
             for produtos in parser(end_dir_predef + arquivo)[:-1]:
                 listona.append(produtos)
-        
+
+        #Processa os xml dos produtos para listá-los na tela
         exibir_produtos(listona, margem, endereco, maximo)
 
-#Função principal (chamada feita pela main)
+#Chama as outras funções
 def revenda():
 
     #Verifica as configurações de diretório predefinido armazenadas em disco
@@ -317,10 +334,17 @@ def revenda():
         end_dir_predef = arq_dir_predef.readlines()[1]
         if end_dir_predef[-1] == '\n':
             end_dir_predef = end_dir_predef[:-1]
-        arq_dir_predef.close()
         endereco = escolher_xml_diretorio(end_dir_predef)
-    
+    arq_dir_predef.close()
+
+    #Pode ser None no caso de a pessoa apertar v para voltar
     if endereco is not None:
         exibir_info(endereco)
 
-revenda()
+#Função principal
+def main():
+    revenda()
+
+#Chamada da main
+if __name__ == '__main__':
+    main()
