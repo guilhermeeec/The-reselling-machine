@@ -1,13 +1,23 @@
 ########## TELA INICIAL ##########
 
-import LCR
+#Arquivos do programa
+import LCR              #Leitura e cálculo de revenda
 import Configuracoes
 import Backup
+
+#Biblioteca
 import os
 
+#Tela inicial
 def tela_inicial ():
+    
+    #Limpa a tela
     system("clear" or "cls")
+
+    #Cabeçalho
     print('\t\tThe Reselling Machine\n')
+    
+    #Menu
     print('1 - Inserir novo XML')
     print('2 - Backup')
     print('3 - Confihurações')
@@ -16,6 +26,7 @@ def tela_inicial ():
 
     opcao = input('Escolha uma opção: ')
 
+    #Seleciona a tela
     if (opcao == '1'):
         revenda()
         
@@ -30,13 +41,14 @@ def tela_inicial ():
 
     else:
         input("Opção inválida")
-        tela_inicial()
-        return
-
+    
+    #Usuário fica na tela inicial até sair do programa
     tela_inicial()
 
-
+#Função principal
 def main ():
     tela_inicial()
 
-main()
+#Chamada da main
+if __name__ == '__main__':
+    main()
