@@ -1,7 +1,8 @@
 import xml.etree.ElementTree as ET
 
 def parser (XML_file_name, debug=False):
-    
+   
+    #input(XML_file_name)
     #Retorna uma árvore XML
     arvore = ET.parse(XML_file_name)
 
@@ -14,11 +15,13 @@ def parser (XML_file_name, debug=False):
     #Pega informações da nota e monta uma dicionário
     fornecedor = raiz[0][0][1][1].text
     data_emissao = raiz[0][0][0][6].text
-    chave_acesso = raiz[1][0][2].text
-    icms_st = raiz[0][0][13][0][5].text
-    ipi = raiz[0][0][13][0][13].text
-    outras_despesas = raiz[0][0][13][0][12].text
-    valor_total = raiz[0][0][13][0][18].text
+    chave_acesso = raiz[1][0][2].text 
+    for item in raiz[0][0]:
+        if(item.tag[36:41]=='total'):
+            icms_st = item[0][5].text
+            ipi = item[0][13].text
+            outras_despesas = item[0][12].text
+            valor_total = item[0][18].text
     
     nota_info = {
                 'Fornecedor':fornecedor,
@@ -62,8 +65,15 @@ def parser (XML_file_name, debug=False):
                     tem_icmsst = True
             if tem_icmsst == False:
                 icms_st_p.append(0)
-
-            ipi_p.append(item[1][2][1][3].text)
+            
+            for termo in item[1]:
+                if termo.tag[36:39] == 'IPI':
+                    if termo[1].tag[36:40] == 'IPITrib':
+                        ipi_p.append(termo[1][3].text)
+                    else:
+                        ipi_p.append(termo[1][0].text)
+                else:
+                    ipi_p.append('0.00')
             unitario_p.append(item[0][9].text)
             
             quantidade_de_produtos += 1

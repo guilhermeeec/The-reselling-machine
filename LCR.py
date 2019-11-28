@@ -91,11 +91,11 @@ def escolher_xml_diretorio (end_dir_predef, quant_xml_exibidos=10):
         return 
 
     #'^[[B' = seta para baixo
-    elif entrada == 'm' or entrada == 'M':
+    elif (entrada == 'm' or entrada == 'M') and n < len(lista_xml):
             
         #Chama a função recursivamente pedindo pra exibir mais 10 xml
         quant_xml_exibidos += 10
-        retorno = escolher_xml_diretorio(lista_xml, quant_xml_exibidos)
+        retorno = escolher_xml_diretorio(end_dir_predef, quant_xml_exibidos)
 
     elif entrada == 't' or entrada == 'T':
 
@@ -140,7 +140,14 @@ def salvamento_disco(info_xml, margem):
         backup.write(str(produto['ICMS ST'])+'~')
         backup.write(produto['IPI']+'~')
         backup.write(produto['Valor unitário']+'~')
-        backup.write(str(((float(margem))/100 + 1) * float(produto['Valor unitário']))+'~')
+        erro_unitario = False
+        for caracter in produto['Valor unitário']:
+            if(ord(caracter)<ord('0') and caracter!= '.') or ord(caracter)>ord('9'):
+                erro_unitario = True
+        if erro_unitario == False:
+            backup.write(str(((float(margem))/100 + 1) * float(produto['Valor unitário']))+'~')
+        else:
+            backup.write('Error'+'~')
         backup.write(data_texto+'~')
         backup.write('\n')
 
@@ -157,7 +164,14 @@ def exibir_produtos(info_xml, margem, endereco, maximo=4):
         print(info_xml[produto]['Nome'])
         print('\tQuantidade: ', info_xml[produto]['Quantidade'])
         print('\tPreço unitário: ', info_xml[produto]['Valor unitário'])
-        print('\tPreço de revenda: ', ((float(margem)/100) + 1) * float(info_xml[produto]['Valor unitário']))
+        erro_unitario = False
+        for caracter in info_xml[produto]['Valor unitário']:
+            if (ord(caracter)<ord('0') and caracter != '.') or ord(caracter)>ord('9'):
+                erro_unitario = True
+        if erro_unitario == False:
+            print('\tPreço de revenda: ', ((float(margem)/100) + 1) * float(info_xml[produto]['Valor unitário']))
+        else:
+            print('\tPreço de revenda: NÃO PODE SER CALCULADO')
         print()
     
     #Verifica se ja exibiu todos os produtos
