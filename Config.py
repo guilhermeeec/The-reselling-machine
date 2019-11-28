@@ -41,8 +41,7 @@ def margem_lucro (on_off = "Habilitar", margem = None, erro_margem = False):
     
     elif (opcao == "v"):
         if (margem == None and on_off == "Desabilitar"):     #Na primeira vez, habilitou e apertou 'v', sem definir uma margem
-            print("Você tem que inserir uma margem de lucro primeiro ou desabilitar a opção")
-            input()
+            input("\nMargem habilitada mas nada inserido. Insira uma margem ou desabilite a opção")
             on_off_e_margem = margem_lucro(on_off, margem)              
 
         else:
@@ -58,8 +57,8 @@ def margem_lucro (on_off = "Habilitar", margem = None, erro_margem = False):
                 
         anterior = margem
         margem = input("Margem de lucro desejada (em %): ")
-        
-        if (margem != "v"):
+    
+        if (margem != "v" and margem != "V" and margem != ""):
             if (margem[-1] == "%"):
                 margem = margem[:-1]
             
@@ -82,23 +81,26 @@ def margem_lucro (on_off = "Habilitar", margem = None, erro_margem = False):
             
             if (erro_margem == False):
                 margem = float(margem)/100   ## Margem de lucro na forma de decimal pronto para ser usado
-                print("\n*Alterações aplicadas*")
+                input("\n*Alterações aplicadas*")
                 on_off_e_margem = (on_off, margem, erro_margem)
             else:
-                print("\nInválido. Insira somente números e '.' para decimal")
-                input()
+                input("\nInválido. Insira somente números e '.' para decimal")
+                
                 margem = anterior
                 on_off_e_margem = margem_lucro(on_off,margem,erro_margem)
-        else:
-            if (anterior == None and on_off == "Desabilitar"):
-                print("Você tem que inserir uma margem de lucro primeiro ou desabilitar a opção")
-                input()
-                on_off_e_margem = margem_lucro(on_off, anterior)                      
+        elif ((anterior == None and on_off == "Desabilitar")):
+            input("\nMargem habilitada mas nada inserido. Insira uma margem ou desabilite a opção")
+            on_off_e_margem = margem_lucro(on_off, anterior)                      
+        elif (margem == ""):
+            input("\nInválido. Insira somente números e '.' para decimal")
+            on_off_e_margem = margem_lucro(on_off, anterior)                      
+            
+        else:    
             return (on_off,anterior) 
 
     else:            
-        print("Opção inválida")
-        input()
+        input("\nOpção inválida")
+        
         on_off_e_margem = margem_lucro(on_off,margem)
 
 
@@ -140,8 +142,7 @@ def diretorio (on_off = "Habilitar", endereco = None, erro_dir = False ):
     
     elif (opcao == "v"):
         if (endereco == None and on_off == "Desabilitar"):     
-            print("Você tem que inserir o endereço do diretório primeiro ou desabilitar a opção")
-            input()
+            input("\nDiretório habilitado mas nada inserido. Insira um endereço ou desabilite a opção")
             on_off_e_endereco = diretorio(on_off, endereco)
         else:
             return (on_off, endereco)
@@ -149,39 +150,35 @@ def diretorio (on_off = "Habilitar", endereco = None, erro_dir = False ):
     elif (opcao == "2"):
         
         if (endereco == None):
-            print("\nDiretório atual: " + "Não foi inserido")
+            print("\nDiretório selecionado: " + "Não foi inserido")
         else:
-            print("\nDiretório atual:", endereco)
+            print("\nDiretório selecionado:", endereco)
                 
         anterior = endereco
         print("Digite o endereço do diretório desejado. " + "Ex: C:\Apps\SupportAssist ou /home/joaquim\n") #Windows ou Linux
         endereco = input("Diretório: ")
         
-        if (endereco != "v"):
+        if (endereco != "v" and endereco != "V"):
             erro_dir = not(os.path.isdir(endereco))     #Verifica se a pasta existe
             
             if (erro_dir == False):
-                print("\n*Alterações aplicadas*")
-                input()
+                input("\n*Alterações aplicadas*")
+                
                 return (on_off, endereco)
             
             else:
-                print("\nDiretório inválido. Digite novamente")
-                input()
+                input("\nDiretório inválido. Digite novamente")
                 endereco = anterior
                 on_off_e_endereco = diretorio(on_off,endereco,erro_dir)
 
-        else:
-            if (anterior == None and on_off == "Desabilitar"):     
-                print("Você tem que inserir o endereço do diretório primeiro ou desabilitar a opcao")
-                input()
+        elif (anterior == None and on_off == "Desabilitar"):     
+                input("\nDiretório habilitado mas nada inserido. Insira um endereço ou desabilite a opção")
                 on_off_e_endereco = diretorio(on_off, anterior)
-            else:
-                return (on_off,anterior)
+        else:    
+            return (on_off,anterior)
                 
     else:                   
-        print("Opção inválida")
-        input()
+        input("\nOpção inválida")
         on_off_e_endereco = diretorio(on_off, endereco)
          
     return on_off_e_endereco     
@@ -189,19 +186,18 @@ def diretorio (on_off = "Habilitar", endereco = None, erro_dir = False ):
 
 def ler_arq (arq):
     lista = arq.readlines()
-    input(lista)
     lista[0] = lista[0][:-1]
-    
-    
     return lista
 
 
 
 def escrever_arq (arq, tupla):
-    lista = list(tupla)
-    input(lista)
-    arq.write(lista[0] + "\n")
-    arq.write(str(lista[1]))
+    if (tupla != "\n"):
+        lista = list(tupla)
+        arq.write(lista[0] + "\n")
+        arq.write(str(lista[1]))
+    else:
+        arq.write(lista[0] + "\n")
 
 
     
@@ -220,8 +216,12 @@ def config ():
     if (opcao == "1"):
         margem_txt = open("Margem.txt", "r")
         config_margem = ler_arq(margem_txt)
-        config_margem = margem_lucro(config_margem[0], float(config_margem[1]))
         margem_txt.close()
+        if (config_margem[1] == "None" or config_margem[1] == "None\n"):
+            config_margem = margem_lucro(config_margem[0])
+        else:
+            config_margem = margem_lucro(config_margem[0], float(config_margem[1]))
+        
         margem_txt = open("Margem.txt","w")
         escrever_arq(margem_txt, config_margem)
         margem_txt.close()
@@ -230,8 +230,11 @@ def config ():
     elif (opcao == "2"):
         diretorio_txt = open ("Diretorio.txt", "r")
         config_diretorio = ler_arq(diretorio_txt)
-        config_diretorio = diretorio(config_diretorio[0], config_diretorio[1])
         diretorio_txt.close()
+        if (config_diretorio[1] == "None" or config_diretorio[1] == "None\n"):
+            config_diretorio = diretorio(config_diretorio[0])
+        else:
+            config_diretorio = diretorio(config_diretorio[0], config_diretorio[1])
         diretorio_txt = open("Diretorio.txt", "w")
         escrever_arq(diretorio_txt, config_diretorio)
         diretorio_txt.close()
@@ -240,10 +243,9 @@ def config ():
     elif (opcao == "v"):
         return
     else: 
-        print("Opção inválida")
-        input()
+        input("\nOpção inválida")
         config()
-
+    return
 
 config()
 
