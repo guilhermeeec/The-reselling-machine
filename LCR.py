@@ -31,8 +31,6 @@ def escolher_xml_endereco ():
     entrada = input('Digite o endereço do arquivo XML: ')
 
     if entrada == 'v' or entrada == 'V':
-            
-        #Código de voltar
         return
 
     else:
@@ -126,19 +124,21 @@ def escolher_xml_diretorio (end_dir_predef, quant_xml_exibidos=10):
     return retorno
 
 
-def exibir_produtos_BACKUP(info_xml, margem):
-    info_xml = info_xml[:-1]
+def salvamento_disco(info_xml, margem):
     
+    backup = open('Backup.txt', 'a')
+
     for produto in info_xml:
-        print(produto['Nome'])
-        print('\tCódigo: ', produto['Código'])
-        print('\tQuantidade: ', produto['Quantidade'])
-        print('\tValor total: ', produto['Total'])
-        print('\tValor ICMS ST: ', produto['ICMS ST'])
-        print('\tValor IPI: ', produto['IPI'])
-        print('\tPreço unitário: ', produto['Valor unitário'])
-        print('\tPreço de revenda: ', (margem + 1) * produto['Valor unitário'])
-        print()
+        backup.write(produto['Nome']+'~')
+        backup.write(produto['Código']+'~')
+        backup.write(produto['Quantidade']+'~')
+        backup.write(produto['Total']+'::')
+        backup.write(str(produto['ICMS ST'])+'~')
+        backup.write(produto['IPI']+'::')
+        backup.write(produto['Valor unitário']+'~')
+        backup.write(str(((float(margem))/100 + 1) * float(produto['Valor unitário']))+'~')
+
+    backup.close()
 
 #Tela 1.2A e 1.2B
 def exibir_produtos(info_xml, margem, endereco, maximo=4):
@@ -169,9 +169,7 @@ def exibir_produtos(info_xml, margem, endereco, maximo=4):
         exibir_info(endereco, maximo, margem)
 
     elif entrada == 'y' or entrada == 'Y':
-        
-        pass
-        #FALTANDO
+        salvamento_disco(info_xml, margem)
     
     elif entrada == 'n' or entrada == 'N':
         return
