@@ -1,2 +1,2 @@
-Habilitar
+Desabilitar
 /home/guiat/comp1/The-reselling-machine/

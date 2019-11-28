@@ -50,11 +50,7 @@ def parser (XML_file_name, debug=False):
         if item.tag[36:40] == 'det':
             codigo_p.append(item[0][0].text)
 
-            #O nome pode estar dividido em duas partes ou não
-            if len(item) >= 3:
-                nome_p.append(item[0][2].text + ' ' + item[2].text)
-            else:
-                nome_p.append(item[0][2].text)
+            nome_p.append(item[0][2].text)
 
             quantidade_p.append(item[0][13].text)
             valor_total_p.append(item[0][10].text)
@@ -94,5 +90,3 @@ def parser (XML_file_name, debug=False):
     produtos.append(nota_info)
 
     return produtos
-
-parser('teste.xml',True)

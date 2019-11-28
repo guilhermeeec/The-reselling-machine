@@ -140,6 +140,7 @@ def exibir_produtos_BACKUP(info_xml, margem):
         print('\tPreço de revenda: ', (margem + 1) * produto['Valor unitário'])
         print()
 
+#Tela 1.2A e 1.2B
 def exibir_produtos(info_xml, margem, endereco, maximo=4):
     
     n = min(len(info_xml),maximo)
@@ -147,12 +148,10 @@ def exibir_produtos(info_xml, margem, endereco, maximo=4):
     #Mostra os produtos na tela
     for produto in range(maximo-4, n):
 
-        #Falta formatação
-
         print(info_xml[produto]['Nome'])
         print('\tQuantidade: ', info_xml[produto]['Quantidade'])
         print('\tPreço unitário: ', info_xml[produto]['Valor unitário'])
-        print('\tPreço de revenda: ', (float(margem) + 1) * float(info_xml[produto]['Valor unitário']))
+        print('\tPreço de revenda: ', ((float(margem)/100) + 1) * float(info_xml[produto]['Valor unitário']))
         print()
     
     #Verifica se ja exibiu todos os produtos
@@ -217,9 +216,20 @@ def exibir_info (endereco, maximo=6, margem=0):
         
         #Se estiver habilitada e for a primeira vez rodando o programa
         elif margem_on_off == 'Habilitar\n' and maximo == 6:
-            print('\nDigite a margem de lucro desejada: ')
-            
-            #FALTANDO
+            margem = input('\nDigite a margem de lucro desejada: ')
+            erro = False
+            contador_pontos=0
+
+            for caracter in margem:
+                if (ord(caracter)<ord('0') or ord(caracter)>ord('9')) and caracter != '.':
+                    erro = True
+                if caracter == '.':
+                    contador_pontos += 1
+
+            if erro == True or contador_pontos >= 2:
+                input('Margem de lucro inválida. Digite um número em porcentagem usando o "." para decimal caso necessário')
+                exibir_info(endereco, maximo)
+                return
         
         #Vai exibir a margem de lucro que o usuário digitou anteriormente
         else:
@@ -228,15 +238,29 @@ def exibir_info (endereco, maximo=6, margem=0):
         info_xml = info_xml[:-1]
         exibir_produtos(info_xml, margem, endereco, maximo)
 
+    #Todos os xml
     else:
         if margem_on_off == 'Desabilitar\n':
             print('*Configurações padrões aplicadas*')
             arq_margem.seek(0)
             margem = arq_margem.readlines()[1]
             arq_margem.close()
+
         elif margem_on_off == 'Habilitar\n' and maximo == 6:
-            print('Digite a margem de lucro desejada: ')
-            #FALTANDO
+            margem = input('\nDigite a margem de lucro desejada: ')
+            erro = False
+            contador_pontos=0
+
+            for caracter in margem:
+                if (ord(caracter)<ord('0') or ord(caracter)>ord('9')) and caracter != '.':
+                    erro = True
+                if caracter == '.':
+                    contador_pontos += 1
+
+            if erro == True or contador_pontos == len(margem):
+                input('Margem de lucro inválida. Digite um número em porcentagem usando o "." para decimal caso necessário')
+                exibir_info(endereco, maximo)
+                return
         else:
             print('Digite a margem de lucro desejada:', margem)
         
