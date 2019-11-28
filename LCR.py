@@ -80,7 +80,7 @@ def escolher_xml_diretorio (end_dir_predef, quant_xml_exibidos=10):
         
     #Pede pro usuário apertar seta pra baixo ou m para exibir mais xml caso existam
     if n < len(lista_xml):
-        print('\nPressione seta para baixo (ou \'m\') para exibir mais')
+        print('\nPressione \'m\' para exibir mais')
             
     print('\n(digite \'v\' para voltar)\n')
     entrada = input('Selecione o XML (ou digite \'T\' para todos): ')
@@ -92,7 +92,7 @@ def escolher_xml_diretorio (end_dir_predef, quant_xml_exibidos=10):
         return 
 
     #'^[[B' = seta para baixo
-    elif entrada == 'm' or entrada == 'M' or entrada == '^[[B':
+    elif entrada == 'm' or entrada == 'M':
             
         #Chama a função recursivamente pedindo pra exibir mais 10 xml
         quant_xml_exibidos += 10
@@ -152,12 +152,12 @@ def exibir_produtos(info_xml, margem, endereco, maximo=4):
         print(info_xml[produto]['Nome'])
         print('\tQuantidade: ', info_xml[produto]['Quantidade'])
         print('\tPreço unitário: ', info_xml[produto]['Valor unitário'])
-        print('\tPreço de revenda: ', (int(margem) + 1) * int(info_xml[produto]['Valor unitário']))
+        print('\tPreço de revenda: ', (float(margem) + 1) * float(info_xml[produto]['Valor unitário']))
         print()
     
     #Verifica se ja exibiu todos os produtos
     if n < len(info_xml):
-        print('\nPressione seta para baixo (ou \'m\') para exibir mais\n')
+        print('\nPressione \'m\' para exibir mais\n')
 
     print('Deseja salvar os dados no sistema?')
     print('Y/N:')
@@ -165,7 +165,7 @@ def exibir_produtos(info_xml, margem, endereco, maximo=4):
     entrada = input()
 
     #Tratamento de erro
-    if entrada == 'm' or entrada == 'M' or entrada == '^[[B':
+    if (entrada == 'm' or entrada == 'M') and (n < len(info_xml)):
         maximo += 4
         exibir_info(endereco, maximo, margem)
 

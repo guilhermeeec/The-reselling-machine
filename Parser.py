@@ -83,7 +83,7 @@ def parser (XML_file_name, debug=False):
         produtos[indice]['Total'] = valor_total_p[indice]
         produtos[indice]['ICMS ST'] = icms_st_p[indice]
         produtos[indice]['IPI'] = ipi_p[indice]
-        produtos[indice]['Unitário'] = unitario_p[indice]
+        produtos[indice]['Valor unitário'] = unitario_p[indice]
 
     if debug == True:
         print('Dicionários dos produtos')
@@ -94,3 +94,5 @@ def parser (XML_file_name, debug=False):
     produtos.append(nota_info)
 
     return produtos
+
+parser('teste.xml',True)
