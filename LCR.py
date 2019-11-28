@@ -127,13 +127,16 @@ def escolher_xml_diretorio (end_dir_predef, quant_xml_exibidos=25):
             retorno = escolher_xml_diretorio(end_dir_predef)
             return retorno
 
+#Salva os produtos em disco
 def salvamento_disco(info_xml, margem):
-
+    
     backup = open('Backup.txt', 'a')
     
+    #Data de modificação
     data = date.today()
     data_texto = '{}/{}/{}'.format(data.day, data.month, data.year)
 
+    #Escreve os profutos em disco
     for produto in info_xml:
         backup.write(produto['Nome']+'~')
         backup.write(produto['Código']+'~')
@@ -163,10 +166,12 @@ def exibir_produtos(info_xml, margem, endereco, maximo=4):
 
     #Mostra os produtos na tela
     for produto in range(maximo-4, n):
-
+        
         print(info_xml[produto]['Nome'])
         print('\tQuantidade: ', info_xml[produto]['Quantidade'])
         print('\tPreço unitário: ', info_xml[produto]['Valor unitário'])
+        
+        #Alguns produtos não consegui acessar o valor unitário
         erro_unitario = False
         for caracter in info_xml[produto]['Valor unitário']:
             if (ord(caracter)<ord('0') and caracter != '.') or ord(caracter)>ord('9'):
@@ -179,27 +184,32 @@ def exibir_produtos(info_xml, margem, endereco, maximo=4):
     
     #Verifica se ja exibiu todos os produtos
     if n < len(info_xml):
-        print('\nPressione \'m\' para exibir mais\n')
+        print('\nPressione "m" para exibir mais\n')
 
     print('Deseja salvar os dados no sistema?')
     print('Y/N:')
 
     entrada = input()
 
-    #Tratamento de erro
+    #Exibir mais
     if (entrada == 'm' or entrada == 'M') and (n < len(info_xml)):
         maximo += 4
         exibir_info(endereco, maximo, margem)
+        return
 
+    #Salvar em disco
     elif entrada == 'y' or entrada == 'Y':
         salvamento_disco(info_xml, margem)
+        return
     
+    #Não salvar
     elif entrada == 'n' or entrada == 'N':
         return
 
     else:
         input('Opção inválida')
         exibir_info(endereco, maximo, margem)
+        return
 
 #Tela 1.2A e 1.2B
 def exibir_info (endereco, maximo=4, margem=0):

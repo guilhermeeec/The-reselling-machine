@@ -1,8 +1,9 @@
+#Biblioteca
 import xml.etree.ElementTree as ET
 
+#Recebe um endereço de xml e retorna uma lista com os produtos e com as informações da nora
 def parser (XML_file_name, debug=False):
    
-    #input(XML_file_name)
     #Retorna uma árvore XML
     arvore = ET.parse(XML_file_name)
 
@@ -66,6 +67,7 @@ def parser (XML_file_name, debug=False):
             if tem_icmsst == False:
                 icms_st_p.append(0)
             
+            #Alguns produtos tem IPI outros não
             for termo in item[1]:
                 if termo.tag[36:39] == 'IPI':
                     if termo[1].tag[36:40] == 'IPITrib':
@@ -100,3 +102,13 @@ def parser (XML_file_name, debug=False):
     produtos.append(nota_info)
 
     return produtos
+
+#Função principal
+def main():
+    
+    #Teste
+    parser('teste.xml', True)
+
+#Chamada da main
+if __name__ == '__main__':
+    main()
