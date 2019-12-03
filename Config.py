@@ -24,12 +24,11 @@ def margem_lucro (on_off = "Habilitar", margem = None, erro_margem = False):
         input('\nSistema operacional não aceito. Pressione Enter.')
         return
 
-    print("******************* CONFIGURAÇÕES ********************")     
+    print("******************* CONFIGURAÇÕES *********************")     
     print("                   MARGEM DE LUCRO\n")                      
-    print("*aperte 'v' para voltar*")                                  
-    print("\n"*2)
+    print('*digite "v" para voltar*\n')                                  
     print("1 -", on_off, "margem de lucro predefinida") 
-    print("2 - Definir margem de lucro")
+    print("2 - Definir margem de lucro\n")
     
     if (erro_margem == False):
         opcao = input("Opção: ")
@@ -90,7 +89,7 @@ def margem_lucro (on_off = "Habilitar", margem = None, erro_margem = False):
             
             if (erro_margem == False):
                 margem = float(margem)/100   ## Margem de lucro na forma de decimal pronto para ser usado
-                input("\n*Alterações aplicadas*")
+                input("\nAlterações aplicadas. Pressione enter.")
                 on_off_e_margem = (on_off, margem, erro_margem)
             else:
                 input("\nInválido. Insira somente números e '.' para decimal")
@@ -137,11 +136,9 @@ def diretorio (on_off = "Habilitar", endereco = None, erro_dir = False ):
     
     print("******************* CONFIGURAÇÕES **********************")     
     print("                      DIRETÓRIO\n")                      
-    print("*aperte 'v' para voltar*")                                  
-    print("\n"*2)
+    print('*digite "v" para voltar*\n')                                  
     print("1 -", on_off, "diretório predefinido") 
-    print("2 - Definir diretório")
-    print("\n"*2)
+    print("2 - Definir diretório\n")
     
     if (erro_dir == False):
         opcao = input("Opção: ")
@@ -181,7 +178,7 @@ def diretorio (on_off = "Habilitar", endereco = None, erro_dir = False ):
             
 
             if (erro_dir == False):
-                input("\n*Alterações aplicadas*")
+                input("\nAlterações aplicadas. Pressione enter.")
                 
                 return (on_off, endereco)
             
@@ -234,11 +231,9 @@ def config ():
     
     print("******************* CONFIGURAÇÕES *********************")                           
     print("")
-    print("*aperte 'v' para voltar*")                                  
-    print("\n"*2)
+    print('*digite "v" para voltar*\n')                                  
     print("1 - Margem de Lucro") 
-    print("2 - Diretório")
-    print("\n"*2)
+    print("2 - Diretório\n")
     
     opcao = input("Opção: ")
     if (opcao == "1"):

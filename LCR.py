@@ -225,6 +225,7 @@ def exibir_produtos(info_xml, margem, endereco, maximo=4):
 
     #Salvar em disco
     elif entrada == 'y' or entrada == 'Y':
+        input('Salvo com sucesso. Pressione enter')
         salvamento_disco(info_xml, margem)
         return
     
@@ -233,12 +234,12 @@ def exibir_produtos(info_xml, margem, endereco, maximo=4):
         return
 
     else:
-        input('Opção inválida')
+        input('Opção inválida. Pressione enter.')
         exibir_info(endereco, maximo, margem)
         return
 
 #Tela 1.2A e 1.2B
-def exibir_info (endereco, maximo=4, margem=0):
+def exibir_info (endereco, maximo=4, margem='nenhuma'):
      
     #Limpa a tela
     if platform.system() == 'Windows':
@@ -288,8 +289,9 @@ def exibir_info (endereco, maximo=4, margem=0):
             arq_margem.close()
         
         #Se estiver habilitada e for a primeira vez rodando o programa
-        elif margem_on_off == 'Habilitar\n' and maximo == 4:
+        elif margem_on_off == 'Habilitar\n' and maximo == 4 and margem == 'nenhuma':
             margem = input('\nDigite a margem de lucro desejada: ')
+            print()
             erro = False
             contador_pontos=0
 
@@ -316,7 +318,7 @@ def exibir_info (endereco, maximo=4, margem=0):
         
         #Vai exibir a margem de lucro que o usuário digitou anteriormente se não for a primeira vez aberto
         else:
-            print('Digite a margem de lucro desejada:', margem)
+            print('\nDigite a margem de lucro desejada:', margem)
             print()
         
         #Tira o dicionário da nota sobrando apenas os dicionários dos produtos
@@ -330,7 +332,7 @@ def exibir_info (endereco, maximo=4, margem=0):
 
         #Verifica se a margem de lucro padrão está habilitada
         if margem_on_off == 'Desabilitar\n':
-            print('*Configurações padrões aplicadas*')
+            print('*Configurações padrões aplicadas*\n')
             arq_margem.seek(0)
             margem = arq_margem.readlines()[1]
             arq_margem.close()

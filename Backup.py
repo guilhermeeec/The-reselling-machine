@@ -22,7 +22,7 @@ def backup(quant_prod_exibidos=3):
     matriz=[]
 
     if backups.read() == 'none\n':
-        input('Não há produtos no backup')
+        input('Não há produtos no backup. Pressione enter.')
         return
 
     backups.seek(0)
@@ -64,26 +64,29 @@ def backup(quant_prod_exibidos=3):
 
     elif entrada == 'd' or entrada == 'D':
         linha = input('Digite o número do produto a ser deletado: ')
-        
+
         erro_caracter = False
-        if (linha != ""):
+        if linha != "" and linha != 'v' and  linha != 'V':
             for caracter in linha:
                 if ord(caracter)<ord('0') or ord(caracter)>ord('9'):
                     erro_caracter = True
+
+        elif linha == 'v' or linha == 'V':
+            backup(quant_prod_exibidos)
+            return
         
         else:
             erro_caracter = True
 
         if erro_caracter == True:
-            input('Comando inválido')
+            input('Opção inválida. Pressione enter.')
             backup(quant_prod_exibidos)
             return
 
-        
         else:
             linha = int(linha)
             if linha > len(matriz):
-                input('Esse número não corresponde a nenhum produto')
+                input('Esse número não corresponde a nenhum produto. Pressione enter.')
                 backup(quant_prod_exibidos)
                 return
             else:
@@ -100,7 +103,7 @@ def backup(quant_prod_exibidos=3):
                 return
     
     else:
-        input('Opção inválida')
+        input('Opção inválida. Pressione enter.')
         backup(quant_prod_exibidos)
         return
 
