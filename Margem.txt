@@ -1,2 +1,2 @@
-Habilitar
-None
+Desabilitar
+0.5
