@@ -1,0 +1,9 @@
+The Reselling Machine
+COMENTÁRIOS IMPORTANTES:
+
+Após dar um git clone, você recebeu alguns arquivos. 
+O arquivo principal, que contem o programa é o The-Reselling-Machine.py.
+Os outros arquivos .py são módulos que também podem ser testados individualmente caso deseje.
+Os arquivos .txt contém configurações do programa e são usados durante sua execução para armazenar dados em disco.
+Os arquivos .xml são Notas Fiscais Eletrônicas (NFE) reais para serem usadas como teste.
+Você pode mover os arquivos .xml para outro diretório do seu computador, se quiser.
