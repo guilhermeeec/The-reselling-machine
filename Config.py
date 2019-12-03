@@ -172,12 +172,16 @@ def diretorio (on_off = "Habilitar", endereco = None, erro_dir = False ):
             print("\nDiretório selecionado:", endereco)
                 
         anterior = endereco
-        print("Digite o endereço do diretório desejado. " + "Ex: C:\Apps\SupportAssist ou /home/joaquim\n") #Windows ou Linux
+        print("Digite o endereço do diretório desejado. ")
+        print("Ex: C:\Apps\SupportAssist\ para Windows")
+        print("Ex: /home/joaquim/ para Linux\n")
         endereco = input("Diretório: ")
         
         if (endereco != "v" and endereco != "V"):
+            
             erro_dir = not(os.path.isdir(endereco))     #Verifica se a pasta existe
             
+
             if (erro_dir == False):
                 input("\n*Alterações aplicadas*")
                 

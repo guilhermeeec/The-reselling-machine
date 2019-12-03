@@ -132,6 +132,10 @@ def escolher_xml_diretorio (end_dir_predef, quant_xml_exibidos=25):
         
         #Verificar se o número corresponde a um xml
         elif int(entrada) <= len(lista_xml):
+            if end_dir_predef[-1] != '/' and platform.system() == 'Linux':
+                end_dir_predef += '/'
+            if end_dir_predef[-1] != '\\' and platform.system() == 'Windows':
+                end_dir_predef += '\\'
             retorno = end_dir_predef + lista_xml[int(entrada)-1]
             return retorno
     

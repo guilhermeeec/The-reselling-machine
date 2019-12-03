@@ -1,7 +1,17 @@
 import os
+import platform
+
 def backup(quant_prod_exibidos=3):
-    os.system('clear' or 'cls')
     
+    #Limpa a tela
+    if platform.system() == 'Windows':
+        os.system('cls')
+    elif platform.system() == 'Linux':
+        os.system('clear')
+    else:
+        print('Sistema operacional não aceito')
+        return
+
     print('************************* BACKUPS ************************\n')
     
     print('Lista de produtos com a data da última modificação\n')
