@@ -39,7 +39,7 @@ def escolher_xml_endereco ():
     #Cabeçalho
     print('************************** LEITURA DO XML E CÁLCULO DE REVENDA *************************\n')
 
-    print('(digite \'v\' para voltar)\n')
+    print('*digite "v" para voltar*\n')
     entrada = input('Digite o endereço do arquivo XML: ')
 
     #Voltar
@@ -51,19 +51,19 @@ def escolher_xml_endereco ():
 
     #Verifica se o caminho existe
     if os.path.exists (endereco) == False:
-        input('\nEndereço não encontrado')
+        input('\nEndereço não encontrado. Pressione enter.')
         retorno = escolher_xml_endereco()
         return retorno
         
     #Verifica se o arquivo tem extensão .xml
     elif Path(endereco).suffix != '.xml':
-        input('\nArquivo não possui extensão .xml')
+        input('\nArquivo não possui extensão ".xml". Pressione enter.')
         retorno = escolher_xml_endereco()
         return retorno
         
     #Endereço existe e tem extensão .xml
     else:
-        input('\nEndereço encontrado')
+        input('\nEndereço encontrado. Pressione enter.')
         return endereco
     
 #Tela 1.1A
@@ -80,9 +80,15 @@ def escolher_xml_diretorio (end_dir_predef, quant_xml_exibidos=25):
 
     #Cabeçalho
     print('************************** LEITURA DO XML E CÁLCULO DE REVENDA *************************\n')
+    print('*digite "v" para voltar*\n')
 
     #Lista de arquivos xml no diretório predefinido
     lista_xml = varre_xml(end_dir_predef)
+
+    if lista_xml == []:
+        print('Não há arquivos XML no diretório predefinido.\n')
+        input('Pressione enter.')
+        return
 
     #Listagem de xml para o usuário
     print('Lista de XML no diretório predefinido:\n')
@@ -99,8 +105,7 @@ def escolher_xml_diretorio (end_dir_predef, quant_xml_exibidos=25):
     if n < len(lista_xml):
         print('\nPressione "m" para exibir mais')
             
-    print('\n(digite "v" para voltar)\n')
-    entrada = input('Selecione o XML (ou digite "T" para todos): ')
+    entrada = input('\nSelecione o XML (ou digite "T" para todos): ')
 
     #Voltar
     if entrada == 'v' or entrada == 'V':
@@ -127,7 +132,7 @@ def escolher_xml_diretorio (end_dir_predef, quant_xml_exibidos=25):
                 erro = True
 
         if erro == True:
-            input('\nComando inválido')
+            input('\nOpção inválida. Pressione enter.')
             retorno = escolher_xml_diretorio(end_dir_predef, quant_xml_exibidos)
         
         #Verificar se o número corresponde a um xml
@@ -140,7 +145,7 @@ def escolher_xml_diretorio (end_dir_predef, quant_xml_exibidos=25):
             return retorno
     
         else:
-            input('\nNão há um XML na lista com esse número')
+            input('\nNão há um XML na lista com esse número. Pressione enter.')
             retorno = escolher_xml_diretorio(end_dir_predef)
             return retorno
 
@@ -240,6 +245,8 @@ def exibir_info (endereco, maximo=4, margem=0):
         print('Sistema operacional não aceito')
         return
 
+    
+
     #Lê as configurações da margem de lucro armazenadas em disco
     arq_margem = open('Margem.txt', 'r')
     arq_margem.seek(0)
@@ -247,6 +254,8 @@ def exibir_info (endereco, maximo=4, margem=0):
     
     #Cabeçalho
     print('************************** LEITURA DO XML E CÁLCULO DE REVENDA *************************\n')
+    
+    print('*digite "v" para voltar*\n')
     
     #Verifica se o usuário decidiu processar 1 xml
     if endereco != 't':

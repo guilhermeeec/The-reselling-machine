@@ -47,7 +47,7 @@ def tela_inicial ():
         return
 
     else:
-        input("Opção inválida")
+        input("\nOpção inválida. Pressione enter.")
     
     #Usuário fica na tela inicial até sair do programa
     tela_inicial()
