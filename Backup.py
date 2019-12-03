@@ -1,4 +1,4 @@
-import os
+﻿import os
 import platform
 
 def backup(quant_prod_exibidos=3):
@@ -18,10 +18,10 @@ def backup(quant_prod_exibidos=3):
                     
     backups = open('Backup.txt', 'r')
     backups.seek(0)
-    
+
     matriz=[]
-    
-    if backups.read() == None:
+
+    if backups.read() == 'none\n':
         input('Não há produtos no backup')
         return
 
@@ -29,6 +29,8 @@ def backup(quant_prod_exibidos=3):
     for produto in backups.readlines():
         matriz.append(produto.split('~')[:-1])
     
+    matriz.pop(0)
+
     backups.close()
     
     n = min(len(matriz), quant_prod_exibidos)
@@ -80,7 +82,7 @@ def backup(quant_prod_exibidos=3):
         
         else:
             linha = int(linha)
-            if linha >= len(matriz):
+            if linha > len(matriz):
                 input('Esse número não corresponde a nenhum produto')
                 backup(quant_prod_exibidos)
                 return
@@ -88,7 +90,7 @@ def backup(quant_prod_exibidos=3):
                 backups = open('Backup.txt', 'r')
                 backups.seek(0)
                 produtos = backups.readlines()
-                produtos.pop(linha-1)
+                produtos.pop(linha)
                 backups.close()
                 backups = open('Backup.txt', 'w')
                 backups.seek(0)
