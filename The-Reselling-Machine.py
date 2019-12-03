@@ -1,9 +1,9 @@
 ########## TELA INICIAL ##########
 
 #Arquivos do programa
-import LCR              #Leitura e cálculo de revenda
-import Config
-import Backup
+from LCR import revenda             #Leitura e cálculo de revenda
+from Config import config
+from Backup import backup
 
 #Biblioteca
 import os
@@ -12,7 +12,7 @@ import os
 def tela_inicial ():
     
     #Limpa a tela
-    system("clear" or "cls")
+    os.system("clear" or "cls")
 
     #Cabeçalho
     print('\t\tThe Reselling Machine\n')

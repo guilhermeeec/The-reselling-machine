@@ -247,12 +247,8 @@ def config ():
         config()
     return
 
-config()
+def main():
+    config()
 
-
-
-        
-        
-
-    
-
+if __name__ == '__main__':
+    main()
