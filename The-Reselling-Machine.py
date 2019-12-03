@@ -2,7 +2,7 @@
 
 #Arquivos do programa
 import LCR              #Leitura e cálculo de revenda
-import Configuracoes
+import Config
 import Backup
 
 #Biblioteca
