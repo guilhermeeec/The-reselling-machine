@@ -20,7 +20,7 @@ def tela_inicial ():
     #Menu
     print('1 - Inserir novo XML')
     print('2 - Backup')
-    print('3 - Confihurações')
+    print('3 - Configurações')
     print('4 - Sair')
     print()
 

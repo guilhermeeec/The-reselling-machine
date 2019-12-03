@@ -4,7 +4,7 @@ def backup(quant_prod_exibidos=3):
     
     print('************************* BACKUPS ************************\n')
     
-    print('Lista de produtos com a data da última modificação')
+    print('Lista de produtos com a data da última modificação\n')
                     
     backups = open('Backup.txt', 'r')
     backups.seek(0)
@@ -38,7 +38,7 @@ def backup(quant_prod_exibidos=3):
     if n < len(matriz):
         print('Pressione "m" para exibir mais')
 
-    print('Pressione "D" para deletar um produto de Bakcup')
+    print('Pressione "D" para deletar um produto de Backup')
     print('Digite "v" para voltar')
 
     entrada = input()
@@ -54,16 +54,20 @@ def backup(quant_prod_exibidos=3):
         linha = input('Digite o número do produto a ser deletado: ')
         
         erro_caracter = False
+        if (linha != ""):
+            for caracter in linha:
+                if ord(caracter)<ord('0') or ord(caracter)>ord('9'):
+                    erro_caracter = True
         
-        for caracter in linha:
-            if ord(caracter)<ord('0') or ord(caracter)>ord('9'):
-                erro_caracter = True
-        
+        else:
+            erro_caracter = True
+
         if erro_caracter == True:
             input('Comando inválido')
             backup(quant_prod_exibidos)
             return
 
+        
         else:
             linha = int(linha)
             if linha >= len(matriz):
