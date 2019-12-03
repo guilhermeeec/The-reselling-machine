@@ -48,3 +48,8 @@ def backup(quant_prod_exibidos=3):
     if entrada == 'v' or entrada == 'V':
         return
 
+def main():
+    backup()
+
+if __name__ == '__main__':
+    main()
