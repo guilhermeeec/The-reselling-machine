@@ -1,2 +1,2 @@
 Desabilitar
-/home/guiat/comp1/The-reselling-machine/
+/home/andre/trabcomp1/The-reselling-machine/

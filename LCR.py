@@ -127,10 +127,14 @@ def escolher_xml_diretorio (end_dir_predef, quant_xml_exibidos=25):
         erro = False
 
         #Verificar se não digitou um número
-        for letra in entrada:
-            if ord(letra) < ord('0') or ord(letra) > ord('9'):
-                erro = True
-
+        if entrada != "":
+            for letra in entrada:
+                if ord(letra) < ord('0') or ord(letra) > ord('9'):
+                    erro = True
+        else:
+            erro = True
+                                   
+        
         if erro == True:
             input('\nOpção inválida. Pressione enter.')
             retorno = escolher_xml_diretorio(end_dir_predef, quant_xml_exibidos)
@@ -290,13 +294,23 @@ def exibir_info (endereco, maximo=4, margem=0):
             contador_pontos=0
 
             #Verifica se o usuário digitou algo que não é um número
-            for caracter in margem:
-                if (ord(caracter)<ord('0') or ord(caracter)>ord('9')) and caracter != '.':
-                    erro = True
-                if caracter == '.':
-                    contador_pontos += 1
-            if erro == True or contador_pontos >= 2:
-                input('Margem de lucro inválida. Digite um número em porcentagem usando o "." para decimal caso necessário')
+            if margem != "" and margem != "v":
+                for caracter in margem:
+                    if (ord(caracter)<ord('0') or ord(caracter)>ord('9')) and caracter != '.':
+                        erro = True
+                    if caracter == '.':
+                        contador_pontos += 1
+                    if contador_pontos == 2:
+                        erro = True
+            
+            elif margem == "v" or margem == "V":
+                return    
+            
+            else:    
+                erro = True
+            
+            if erro == True:
+                input('\nMargem de lucro inválida. Digite um número em porcentagem usando o "." para decimal caso necessário')
                 exibir_info(endereco, maximo)
                 return
         
@@ -324,17 +338,27 @@ def exibir_info (endereco, maximo=4, margem=0):
         #Se estiver habilitada e for a primeira vez rodando o programa
         elif margem_on_off == 'Habilitar\n' and maximo == 6:
             margem = input('\nDigite a margem de lucro desejada: ')
-            
-            #Verifica se não foi digitado um número 
             erro = False
             contador_pontos=0
-            for caracter in margem:
-                if (ord(caracter)<ord('0') or ord(caracter)>ord('9')) and caracter != '.':
-                    erro = True
-                if caracter == '.':
-                    contador_pontos += 1
-            if erro == True or contador_pontos == len(margem):
-                input('Margem de lucro inválida. Digite um número em porcentagem usando o "." para decimal caso necessário')
+
+            #Verifica se o usuário digitou algo que não é um número
+            if margem != "" and margem != "v" and margem != "V":
+                for caracter in margem:
+                    if (ord(caracter)<ord('0') or ord(caracter)>ord('9')) and caracter != '.':
+                        erro = True
+                    if caracter == '.':
+                        contador_pontos += 1
+                    if contador_pontos == 2:
+                        erro = True
+            
+            elif margem == "v" or margem == "V":
+                return    
+            
+            else:    
+                erro = True
+            
+            if erro == True:
+                input('\nMargem de lucro inválida. Digite um número em porcentagem usando o "." para decimal caso necessário')
                 exibir_info(endereco, maximo)
                 return
 

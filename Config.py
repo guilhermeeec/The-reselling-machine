@@ -21,7 +21,7 @@ def margem_lucro (on_off = "Habilitar", margem = None, erro_margem = False):
     elif platform.system() == 'Linux':
         os.system('clear')
     else:
-        print('Sistema operacional não aceito')
+        input('\nSistema operacional não aceito. Pressione Enter.')
         return
 
     print("******************* CONFIGURAÇÕES ********************")     
@@ -108,7 +108,7 @@ def margem_lucro (on_off = "Habilitar", margem = None, erro_margem = False):
             return (on_off,anterior) 
 
     else:            
-        input("\nOpção inválida")
+        input("\nOpção inválida. Pressione Enter.")
         
         on_off_e_margem = margem_lucro(on_off,margem)
 
@@ -132,7 +132,7 @@ def diretorio (on_off = "Habilitar", endereco = None, erro_dir = False ):
     elif platform.system() == 'Linux':
         os.system('clear')
     else:
-        print('Sistema operacional não aceito')
+        print('\nSistema operacional não aceito. Pressione Enter.')
         return
     
     print("******************* CONFIGURAÇÕES **********************")     
@@ -172,9 +172,7 @@ def diretorio (on_off = "Habilitar", endereco = None, erro_dir = False ):
             print("\nDiretório selecionado:", endereco)
                 
         anterior = endereco
-        print("Digite o endereço do diretório desejado. ")
-        print("Ex: C:\Apps\SupportAssist\ para Windows")
-        print("Ex: /home/joaquim/ para Linux\n")
+        print("Digite o endereço do diretório desejado. Ex: '/home/joaquim/'\n")
         endereco = input("Diretório: ")
         
         if (endereco != "v" and endereco != "V"):
@@ -188,7 +186,7 @@ def diretorio (on_off = "Habilitar", endereco = None, erro_dir = False ):
                 return (on_off, endereco)
             
             else:
-                input("\nDiretório inválido. Digite novamente")
+                input("\nDiretório inválido. Pressione Enter.")
                 endereco = anterior
                 on_off_e_endereco = diretorio(on_off,endereco,erro_dir)
 
@@ -199,7 +197,7 @@ def diretorio (on_off = "Habilitar", endereco = None, erro_dir = False ):
             return (on_off,anterior)
                 
     else:                   
-        input("\nOpção inválida")
+        input("\nOpção inválida. Pressione Enter.")
         on_off_e_endereco = diretorio(on_off, endereco)
          
     return on_off_e_endereco     
@@ -231,7 +229,7 @@ def config ():
     elif platform.system() == 'Linux':
         os.system('clear')
     else:
-        print('Sistema operacional não aceito')
+        print('\nSistema operacional não aceito. Pressione Enter.')
         return
     
     print("******************* CONFIGURAÇÕES *********************")                           
@@ -273,7 +271,7 @@ def config ():
     elif (opcao == "v"):
         return
     else: 
-        input("\nOpção inválida")
+        input("\nOpção inválida. Pressione Enter.")
         config()
     return
 
