@@ -2,6 +2,7 @@
 
 #Bibliotecas
 import os
+import platform
 from pathlib import Path
 from datetime import date
 
@@ -27,7 +28,13 @@ def varre_xml (end_dir_predef):
 def escolher_xml_endereco ():
 
     #Limpa a tela
-    os.system('clear' or 'cls')
+    if platform.system() == 'Windows':
+        os.system('cls')
+    elif platform.system() == 'Linux':
+        os.system('clear')
+    else:
+        print('Sistema operacional não aceito')
+        return
 
     #Cabeçalho
     print('************************** LEITURA DO XML E CÁLCULO DE REVENDA *************************\n')
@@ -63,7 +70,13 @@ def escolher_xml_endereco ():
 def escolher_xml_diretorio (end_dir_predef, quant_xml_exibidos=25):
     
     #Limpa a tela
-    os.system('clear' or 'cls')
+    if platform.system() == 'Windows':
+        os.system('cls')
+    elif platform.system() == 'Linux':
+        os.system('clear')
+    else:
+        print('Sistema operacional não aceito')
+        return
 
     #Cabeçalho
     print('************************** LEITURA DO XML E CÁLCULO DE REVENDA *************************\n')
@@ -213,10 +226,16 @@ def exibir_produtos(info_xml, margem, endereco, maximo=4):
 
 #Tela 1.2A e 1.2B
 def exibir_info (endereco, maximo=4, margem=0):
-    
+     
     #Limpa a tela
-    os.system('clear' or 'cls')
-    
+    if platform.system() == 'Windows':
+        os.system('cls')
+    elif platform.system() == 'Linux':
+        os.system('clear')
+    else:
+        print('Sistema operacional não aceito')
+        return
+
     #Lê as configurações da margem de lucro armazenadas em disco
     arq_margem = open('Margem.txt', 'r')
     arq_margem.seek(0)

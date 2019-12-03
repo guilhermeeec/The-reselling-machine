@@ -2,6 +2,7 @@
 ####### CONFIGURAÇÕES ########
 
 import os
+import platform
 
 #   1 - Margem de lucro
 
@@ -13,8 +14,16 @@ def margem_lucro (on_off = "Habilitar", margem = None, erro_margem = False):
         talvez possa mudar essa forma como foi feita qnd descobrirmos
         como salvar em disco 
     '''
-    
-    os.system("clear" or "cls")                                                    
+                                                    
+    #Limpa a tela
+    if platform.system() == 'Windows':
+        os.system('cls')
+    elif platform.system() == 'Linux':
+        os.system('clear')
+    else:
+        print('Sistema operacional não aceito')
+        return
+
     print("******************* CONFIGURAÇÕES ********************")     
     print("                   MARGEM DE LUCRO\n")                      
     print("*aperte 'v' para voltar*")                                  
@@ -116,8 +125,16 @@ def margem_lucro (on_off = "Habilitar", margem = None, erro_margem = False):
 
 
 def diretorio (on_off = "Habilitar", endereco = None, erro_dir = False ):
+                                                    
+    #Limpa a tela
+    if platform.system() == 'Windows':
+        os.system('cls')
+    elif platform.system() == 'Linux':
+        os.system('clear')
+    else:
+        print('Sistema operacional não aceito')
+        return
     
-    os.system("clear" or "cls")                                                    
     print("******************* CONFIGURAÇÕES **********************")     
     print("                      DIRETÓRIO\n")                      
     print("*aperte 'v' para voltar*")                                  
@@ -203,7 +220,16 @@ def escrever_arq (arq, tupla):
     
     
 def config ():
-    os.system("clear" or "cls")
+    
+    #Limpa a tela
+    if platform.system() == 'Windows':
+        os.system('cls')
+    elif platform.system() == 'Linux':
+        os.system('clear')
+    else:
+        print('Sistema operacional não aceito')
+        return
+    
     print("******************* CONFIGURAÇÕES *********************")                           
     print("")
     print("*aperte 'v' para voltar*")                                  

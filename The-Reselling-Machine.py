@@ -4,6 +4,7 @@
 from LCR import revenda             #Leitura e cálculo de revenda
 from Config import config
 from Backup import backup
+import platform
 
 #Biblioteca
 import os
@@ -12,7 +13,13 @@ import os
 def tela_inicial ():
     
     #Limpa a tela
-    os.system("clear" or "cls")
+    if platform.system() == 'Windows':
+        os.system('cls')
+    elif platform.system() == 'Linux':
+        os.system('clear')
+    else:
+        print('Sistema operacional não aceito')
+        return
 
     #Cabeçalho
     print('\t\tThe Reselling Machine\n')
