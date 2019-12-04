@@ -12,7 +12,7 @@ def backup(quant_prod_exibidos=3):
         print('Sistema operacional não aceito')
         return
 
-    print('************************* BACKUPS ************************\n')
+    print('************************* BACKUPS ***************************\n')
     
     print('Lista de produtos com a data da última modificação\n')
                     
